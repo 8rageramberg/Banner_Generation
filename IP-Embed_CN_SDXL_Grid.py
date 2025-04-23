@@ -49,6 +49,7 @@ dtype = torch.float16  # using float16 on MPS
 # === Load logo and prepare IP-Adapter image embeds & control image ===
 logo_path = "logos/20.jpg"
 logo = Image.open(logo_path).convert("RGB").resize((224, 224))
+logo.save("resized_logo.png")  # Save to disk
 
 # --- Load pipeline and IP-Adapter (once) ---
 controlnet = ControlNetModel.from_pretrained(controlnet_model_id, torch_dtype=dtype).to(device)

@@ -152,7 +152,7 @@ You’re basically building a controllable diffusion pipeline for semantic brand
 
 
 
-ways to move forword?? 
+Ways to move forword?? 
 
 1. Adapter Guidance Scheduling (Dynamic Guidance)
 
@@ -175,3 +175,10 @@ If you’re working with a pipeline that supports it, look into attention maps o
 	•	Let the rest of the image evolve via prompt + ControlNet.
 
 These three ideas is great. And may actually work pretty good. I know these have to bee fine tuned depending on which model we end up using but setting up a pipeline to generate the different results narrowing the spectre down finding the correct thing. These are good proposals and should be too hard to make work
+
+
+
+
+
+
+SHOULD DEF USE RANDOM SEARCH FOR HYPER PARAM SEARCH IF IT WORKS, PROBLEM, HOW THE FUCK DO YOU EVAL THIS IN GEN AI
