@@ -13,10 +13,9 @@ from botTest import send_telegram_message  # Make sure this module is in your PY
 from diffusers.image_processor import IPAdapterMaskProcessor
 
 
-def get_device(try_mps=True):
-    """Determines the computing device; uses MPS if available and requested."""
-    return "mps" if try_mps and torch.backends.mps.is_available() else "cpu"
-
+def get_device():
+    """Determines the computing device; prefers CUDA on cluster."""
+    return "cuda" if torch.cuda.is_available() else "mps"
 
 def load_logo(logo_path, size=(224, 224)):
     """Loads and resizes the logo image; saves a resized copy."""
@@ -232,9 +231,8 @@ def cleanup(pipe, controlnet, image_embeds):
     """Clears the main objects from memory and empties the GPU cache."""
     del pipe, controlnet, image_embeds
     gc.collect()
-    torch.mps.empty_cache()
+    torch.cuda.empty_cache()
     print("🧽 Memory cleared.")
-
 
 def main():
     time_start = time.time()
@@ -249,21 +247,21 @@ def main():
     prompt = "A photo realistic summer forest banner, sunlight through trees, vivid colors. Include logo in the bottom-right corner"
     negative_prompt = "ugly, blurry, deformed, low quality, watermark, "
     seed = 42
-    steps = 20
+    steps = 1
     height = 384
     width = 768
 
     # Grid search parameters:
     # **UPDATE:** grid_adapter is now a list of starting adapter scales.
-    grid_adapter = [0.2]
-    grid_guidance = [7.0]
-    grid_cn = [1.0]
+    grid_adapter = [1.0, 1.5]
+    grid_guidance = [9.0]
+    grid_cn = [0.8]
 
     # For pipeline setup, use the first adapter value.
     adapter_scale_default = grid_adapter[0]
 
     try_mps = True
-    device = get_device(try_mps)
+    device = get_device()
     dtype = torch.float16
 
     # === Load Logo and Prepare Images ===
@@ -317,6 +315,6 @@ def main():
     # Cleanup resources.
     cleanup(pipe, controlnet, image_embeds)
 
-
+ 
 if __name__ == "__main__":
     main()
