@@ -13,7 +13,7 @@ import torch
 from diffusers import StableDiffusionXLControlNetPipeline, ControlNetModel
 import matplotlib.pyplot as plt
 from diffusers.image_processor import IPAdapterMaskProcessor
-from botTest import send_telegram_message  # Make sure this module is in your PYTHONPATH
+from bot import send_telegram_message  # Make sure this module is in your PYTHONPATH
 
 
 # Selects the appropriate compute device (CUDA if available, otherwise CPU).
@@ -64,7 +64,9 @@ def setup_pipeline(model_id, ip_adapter_path, ip_weights, subfolder, controlnet_
     ).to(device)
     pipe.load_ip_adapter(ip_adapter_path, subfolder=subfolder, weight_name=ip_weights)
     pipe.set_ip_adapter_scale(adapter_scale_default)
-    pipe.safety_checker = lambda images, **kwargs: (images, [False] * len(images))
+    # By default, the safety checker is enabled in Stable Diffusion XL.
+    # To disable NSFW filtering (which may suppress outputs), uncomment the line below.
+    # pipe.safety_checker = lambda images, **kwargs: (images, [False] * len(images))
     return pipe, controlnet
 
 # Converts the logo image into IP-Adapter-compatible image embeddings
@@ -96,7 +98,7 @@ def late_activation_callback_creator(adapter_scale_late, steps, activate_ratio):
 
 # Performs a small grid search over adapter scales, guidance, and cutoff points
 # Saves output images for each parameter combination
-def run_small_grid(pipe, prompt, negative_prompt, image_embeds, control_image, ip_adapter_masks, grid_dir, seeds):
+def run_small_grid(pipe, prompt, negative_prompt, image_embeds, control_image, ip_adapter_masks, grid_dir, seeds, device):
     # Grid parameters
     grid_adapter = [0.1, 0.2]
     grid_cn = [0.7]
@@ -201,7 +203,7 @@ def main():
 
         # Run inference across parameter grid
         images = run_small_grid(pipe, config["prompt"], negative_prompt, image_embeds,
-                                control_image, ip_adapter_masks, grid_dir, seeds)
+                                control_image, ip_adapter_masks, grid_dir, seeds, device)
 
         # Save a collage of output images for each prompt
         collage_path = os.path.join(grid_dir, f"collage_{config['name']}.png")
@@ -220,15 +222,18 @@ def main():
     elapsed_minutes = elapsed / 60
     print(f"Script finished in {elapsed:.2f} seconds ({elapsed_minutes:.2f} minutes)")
 
-    # Send a Telegram message if set up, make sure not to push sensitive information 
+    # Send a Telegram message
     try:
         bot_token = ""
         chat_id = ""
-        send_telegram_message(
-            f"Your Grid Search has finished! Elapsed time: {elapsed_minutes:.2f} minutes",
-            bot_token,
-            chat_id
-        )
+        if bot_token and chat_id:
+            send_telegram_message(
+                f"Your Grid Search has finished! Elapsed time: {elapsed_minutes:.2f} minutes",
+                bot_token,
+                chat_id
+            )
+        else:
+            print("ℹ️ Telegram bot token or chat ID not set; skipping notification.")
     except Exception as e:
         print(f"⚠️ Telegram notification failed: {e}")
 

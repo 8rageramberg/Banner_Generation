@@ -15,6 +15,6 @@ def send_telegram_message(message, bot_token, chat_id):
         print("Error sending Telegram notification:", e)
 
 # Replace with your actual bot token and chat id
-bot_token = ""
-chat_id = ""
-send_telegram_message("Your script has finished!", bot_token, chat_id)
+#bot_token = ""
+#chat_id = ""
+#send_telegram_message("Your script has finished!", bot_token, chat_id)

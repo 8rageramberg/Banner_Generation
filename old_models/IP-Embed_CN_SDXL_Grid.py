@@ -230,7 +230,7 @@ elapsed_minutes = elapsed / 60
 print(f"Script finished in {elapsed:.2f} seconds ({elapsed_minutes:.2f} minutes)")
 
 
-from botTest import send_telegram_message
+from bot import send_telegram_message
 bot_token = ""
 chat_id = ""
 send_telegram_message(

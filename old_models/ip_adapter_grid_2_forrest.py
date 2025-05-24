@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 import torch
 from diffusers import StableDiffusionXLControlNetPipeline, ControlNetModel
 import matplotlib.pyplot as plt
-from botTest import send_telegram_message  # Make sure this module is in your PYTHONPATH
+from bot import send_telegram_message  # Make sure this module is in your PYTHONPATH
 
 from diffusers.image_processor import IPAdapterMaskProcessor
 
