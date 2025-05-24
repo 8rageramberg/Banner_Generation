@@ -279,8 +279,8 @@ def main():
     print(f"Script finished in {elapsed:.2f} seconds ({elapsed_minutes:.2f} minutes)")
 
     # Send a Telegram message
-    bot_token = "7601899143:AAHiJK-ppo0c9yX1zaa-a0PtcPd315QReeM"
-    chat_id = "8030867302"
+    bot_token = ""
+    chat_id = ""
     send_telegram_message(
         f"Your Grid Search has finished! Elapsed time: {elapsed_minutes:.2f} minutes",
         bot_token,

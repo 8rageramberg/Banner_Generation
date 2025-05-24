@@ -105,7 +105,7 @@ print("🧽 Memory cleared.")
 
 import requests
 def send_telegram_message(message, bot_token, chat_id):
-    url = f"https://api.telegram.org/bot7601899143:AAHiJK-ppo0c9yX1zaa-a0PtcPd315QReeM/sendMessage"
+    url = f""
     payload = {"chat_id": chat_id, "text": message}
     try:
         response = requests.post(url, json=payload)
@@ -117,7 +117,7 @@ def send_telegram_message(message, bot_token, chat_id):
         print("Error sending Telegram notification:", e)
 
 # Replace with your actual bot token and chat id
-bot_token = "7601899143:AAHiJK-ppo0c9yX1zaa-a0PtcPd315QReeM"
-chat_id = "8030867302"
+bot_token = ""
+chat_id = ""
 send_telegram_message("Your script has finished!", bot_token, chat_id)
 
