@@ -108,6 +108,7 @@ def run_small_grid(pipe, prompt, negative_prompt, image_embeds, control_image, i
     width, height = 2048, 1024
     results = []
 
+
     # Grid loop with high readability and storage of results
     for seed in seeds:
         for g in grid_guidance:

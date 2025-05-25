@@ -54,17 +54,20 @@ If your project requires `test.py` (e.g., to validate outputs or reproduce a rep
 
 
 ## Project Overview
-project/
-├── final_model.py         	# Main image generation script (runs all prompts with grid search)
-├── bot.py                	# Test script to verify generation works with telegram bot setup
-├── full_conda_env.yml     	# Full Conda environment export
-├── check_cuda.py 			# Test to check if cuda is available (if you intend to use it without running the whole script)
-├── dqx2q_final.sbatch		# Examplarary SLURM batch script set up. Need folder "logs" to store logs
-├── CLIP_score_test			# Short CLIP score test. Not used in final pipeline.
-├── logos/                 	# Folder with input logo images
-├── results/  				# Folder to strore results
-├── README.md				# This file
-├── LICENSE					# Licens
+
+
+Directory structure:
+
+- `final_model.py` – Main generation script with grid search
+- `bot.py` – Telegram bot integration for remote generation
+- `full_conda_env.yml` – Conda environment export
+- `check_cuda.py` – Simple CUDA availability test
+- `dqx2q_final.sbatch` – Example SLURM batch script (requires `logs/`)
+- `CLIP_score_test/` – Unused CLIP score test code
+- `logos/` – Input logos for IP-Adapter
+- `results/` – Output folder for generations
+- `README.md` – This file
+- `LICENSE` – Project license
 
 ## Safety Considerations
 
